@@ -60,7 +60,10 @@ const ListingDetailPage = () => {
 
 			if (error) {
 				console.error("❌ Error loading listing:", error);
-				if (error.message?.includes('fetch') || error.message?.includes('network')) {
+				if (
+					error.message?.includes("fetch") ||
+					error.message?.includes("network")
+				) {
 					setNetworkError(error);
 				} else {
 					setError("Nu s-a putut încărca anunțul");
@@ -136,7 +139,7 @@ const ListingDetailPage = () => {
 			setListing(formattedListing);
 		} catch (err: any) {
 			console.error("💥 Error in loadListing:", err);
-			if (err.message?.includes('fetch') || err.message?.includes('network')) {
+			if (err.message?.includes("fetch") || err.message?.includes("network")) {
 				setNetworkError(err);
 			} else {
 				setError("A apărut o eroare la încărcarea anunțului");
@@ -234,9 +237,9 @@ const ListingDetailPage = () => {
 	if (networkError) {
 		return (
 			<div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-				<NetworkErrorHandler 
-					error={networkError} 
-					onRetry={() => id && loadListing(id)} 
+				<NetworkErrorHandler
+					error={networkError}
+					onRetry={() => id && loadListing(id)}
 				/>
 			</div>
 		);
@@ -320,7 +323,7 @@ const ListingDetailPage = () => {
 										listing.images[currentImageIndex]
 									}
 									alt={listing.title}
-									className="w-full h-64 sm:h-96 object-cover"
+									className="max-w-4xl mx-auto w-full h-auto max-h-[500px] object-contain"
 									onError={(e) => {
 										const target = e.currentTarget;
 										target.src =
@@ -383,8 +386,12 @@ const ListingDetailPage = () => {
 											}`}
 										>
 											<img
+												AAA
 												src={image}
-												alt={`${listing.brand} ${listing.model} ${index + 1}`}
+												alt={
+													"BRAND" +
+													`${listing.brand} ${listing.model} ${index + 1}`
+												}
 												className="w-full h-full object-cover"
 												onError={(e) => {
 													// Fallback la imagine placeholder dacă imaginea nu se încarcă
@@ -405,10 +412,19 @@ const ListingDetailPage = () => {
 								<div className="mb-4 sm:mb-0">
 									<h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
 										{listing.title}
+										<h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-4 uppercase tracking-wide">
+											{listing.brand} — {listing.model}
+										</h2>
 									</h1>
-									<h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">
-										{listing.brand} {listing.model}
+									<br />
+									<h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 mb-4">
+										<span className="text-gray-500">Brand:</span>{" "}
+										{listing.brand} 
+										<br />
+										<span className="text-gray-500">Model:</span>{" "}
+										{listing.model}
 									</h2>
+
 									<div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 text-gray-600 text-sm">
 										<span className="flex items-center space-x-1">
 											<Calendar className="h-4 w-4" />
@@ -446,11 +462,13 @@ const ListingDetailPage = () => {
 							{/* Availability Badge - Only for dealers */}
 							{listing.seller.type === "dealer" && (
 								<div className="mb-4 flex justify-start">
-									<div className={`inline-flex items-center space-x-2 px-4 py-2 rounded-lg ${
-										listing.availability === "pe_stoc" 
-											? "bg-green-100 text-green-800 border border-green-200" 
-											: "bg-blue-100 text-blue-800 border border-blue-200"
-									}`}>
+									<div
+										className={`inline-flex items-center space-x-2 px-4 py-2 rounded-lg ${
+											listing.availability === "pe_stoc"
+												? "bg-green-100 text-green-800 border border-green-200"
+												: "bg-blue-100 text-blue-800 border border-blue-200"
+										}`}
+									>
 										{listing.availability === "pe_stoc" ? (
 											<>
 												<Store className="h-4 w-4" />
